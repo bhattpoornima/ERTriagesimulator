@@ -69,10 +69,12 @@ public class ERSystem {
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     }
 
+    public TriageHeap getQueue() { return triageQueue; }
+
     public synchronized boolean isAllDone() {
         return triageQueue.isEmpty() && availableDoctors == totalDoctors;
     }
 
-    public void printQueue() { triageQueue.printQueue(); }
-    public TriageHeap getQueue() { return triageQueue; }
+    public int getTotalTreated() { return totalTreated; }
+    public long getTotalWaitTimeMs() { return totalWaitTimeMs; }
 }

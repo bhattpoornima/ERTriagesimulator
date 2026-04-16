@@ -107,4 +107,6 @@ public class TriageHeap {
         .forEach(p -> System.out.println("  │  " + p));
         System.out.println("  └──────────────────────────────────────────────────────────┘");
     }
-}
+    public List<Patient> getSortedPatients() {
+        return heap.stream().sorted().toList();
+    }}
