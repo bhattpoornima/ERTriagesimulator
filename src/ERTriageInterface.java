@@ -116,6 +116,7 @@ public class ERTriageInterface {
     private String getStatsDisplay() {
         StringBuilder sb = new StringBuilder();
         sb.append("Patients treated : ").append(er.getTotalTreated()).append("\n");
+        sb.append("In treatment     : ").append(er.getInTreatment()).append("\n");
         sb.append("Still waiting    : ").append(er.getQueue().size()).append("\n");
         if (er.getTotalTreated() > 0) {
             double avgWait = (double) er.getTotalWaitTimeMs() / er.getTotalTreated() / 60000.0;

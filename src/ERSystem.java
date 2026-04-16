@@ -28,10 +28,8 @@ public class ERSystem {
             Patient next = triageQueue.poll();
             availableDoctors--;
             long waitMs = System.currentTimeMillis() - next.getArrivalTime();
-            totalWaitTimeMs += waitMs;
-            totalTreated++;
 
-            System.out.printf("  TREATING: %s | Wait: %.1f min%n",
+            System.out.printf("  STARTED TREATING: %s | Wait: %.1f min%n",
                     next, waitMs / 60000.0);
 
             // Simulate treatment duration (in real sim, use a timer)
@@ -41,7 +39,11 @@ public class ERSystem {
                     Thread.sleep(treatMs);
                 } catch (InterruptedException ignored) {}
                 synchronized (this) {
+                    totalWaitTimeMs += waitMs;
+                    totalTreated++;
                     availableDoctors++;
+                    System.out.printf("  COMPLETED: %s | Total treated: %d%n",
+                            next, totalTreated);
                     System.out.println("  Doctor free. Checking queue...");
                     tryTreat();
                 }
@@ -77,4 +79,5 @@ public class ERSystem {
 
     public int getTotalTreated() { return totalTreated; }
     public long getTotalWaitTimeMs() { return totalWaitTimeMs; }
+    public int getInTreatment() { return totalDoctors - availableDoctors; }
 }
