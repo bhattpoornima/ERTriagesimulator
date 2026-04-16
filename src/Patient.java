@@ -36,10 +36,6 @@ public class Patient implements Comparable<Patient> {
         return this.priorityScore;
     }
 
-    public void applyAgingBoost() {
-        this.priorityScore += 2.0;   // called every 60s by the aging thread
-    }
-
     @Override
     public int compareTo(Patient other) {
         return Double.compare(other.priorityScore, this.priorityScore); // max-heap order

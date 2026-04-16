@@ -6,7 +6,7 @@ public class Main {
         ERSystem er = new ERSystem(2); // 2 doctors on duty
 
         // Start aging scheduler — boosts scores every 30 seconds
-        AgingScheduler aging = new AgingScheduler(er.getQueue(), 30);
+        AgingScheduler aging = new AgingScheduler(er, 30);
         aging.start();
 
         // Simulate a wave of patients arriving
@@ -33,6 +33,16 @@ public class Main {
         Thread.sleep(5000);
 
         aging.stop();
-        er.printStats();
+
+        // Wait until all treatments complete
+        while (!er.isAllDone()) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        er.printStats(); // FINAL stats
     }
 }

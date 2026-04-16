@@ -66,7 +66,7 @@ public class TriageHeap {
     private void siftUp(int idx) {
         while (idx > 0) {
             int parent = (idx - 1) / 2;
-            if (heap.get(idx).compareTo(heap.get(parent)) < 0) break; // parent is higher priority
+            if (heap.get(idx).compareTo(heap.get(parent)) >= 0) break; // parent is higher priority
             swap(idx, parent);
             idx = parent;
         }
@@ -79,8 +79,8 @@ public class TriageHeap {
             int right = 2 * idx + 2;
             int largest = idx;
 
-            if (left  < size && heap.get(left).compareTo(heap.get(largest))  > 0) largest = left;
-            if (right < size && heap.get(right).compareTo(heap.get(largest)) > 0) largest = right;
+            if (left  < size && heap.get(left).compareTo(heap.get(largest))  < 0) largest = left;
+            if (right < size && heap.get(right).compareTo(heap.get(largest)) < 0) largest = right;
 
             if (largest == idx) break;
             swap(idx, largest);
@@ -103,8 +103,8 @@ public class TriageHeap {
         System.out.println("  ┌─ Triage Queue (highest priority first) ─────────────────┐");
         // Sort a copy for display — don't disturb the heap
         heap.stream()
-            .sorted()
-            .forEach(p -> System.out.println("  │  " + p));
+        .sorted()
+        .forEach(p -> System.out.println("  │  " + p));
         System.out.println("  └──────────────────────────────────────────────────────────┘");
     }
 }

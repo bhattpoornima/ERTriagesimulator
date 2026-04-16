@@ -24,6 +24,7 @@ public class ERSystem {
 
     public synchronized void tryTreat() {
         while (availableDoctors > 0 && !triageQueue.isEmpty()) {
+            triageQueue.reheapifyAll();
             Patient next = triageQueue.poll();
             availableDoctors--;
             long waitMs = System.currentTimeMillis() - next.getArrivalTime();
@@ -50,11 +51,11 @@ public class ERSystem {
 
     private int getTreatmentDuration(Patient.Severity s) {
         return switch (s) {
-            case CRITICAL -> 5000;
-            case SEVERE   -> 4000;
-            case MODERATE -> 3000;
-            case MILD     -> 2000;
-            case MINOR    -> 1000;
+            case CRITICAL -> 50000;
+            case SEVERE   -> 40000;
+            case MODERATE -> 30000;
+            case MILD     -> 20000;
+            case MINOR    -> 10000;
         };
     }
 
@@ -66,6 +67,10 @@ public class ERSystem {
             System.out.printf("  Avg wait time    : %.1f min%n",
                     (totalWaitTimeMs / totalTreated) / 60000.0);
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    }
+
+    public synchronized boolean isAllDone() {
+        return triageQueue.isEmpty() && availableDoctors == totalDoctors;
     }
 
     public void printQueue() { triageQueue.printQueue(); }
